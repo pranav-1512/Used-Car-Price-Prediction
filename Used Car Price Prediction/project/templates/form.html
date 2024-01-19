@@ -1,0 +1,519 @@
+<nav class="navbar navbar-expand-lg navbar-dark header" style="margin-top:-694px">
+  <input type="checkbox" class="openSidebarMenu" id="openSidebarMenu">
+    <label for="openSidebarMenu" class="sidebarIconToggle">
+      <div class="spinner diagonal part-1"></div>
+      <div class="spinner horizontal"></div>
+      <div class="spinner diagonal part-2"></div>
+    </label>    
+    <div id="sidebarMenu">
+      <ul class="sidebarMenuInner">
+        <li><a href=# >Home</a></li>
+        <li><a href="{{ url_for('history') }}">Previous History</a></li>
+      </ul>
+    </div>
+    <div class="navbar-links">
+      <div class="navbar-center">
+          <p class="navbar-brand" style="font-size:20px;color:white;margin-left:187px;margin-top:9px">Car Price prediction</p>
+      </div>
+
+      {% if current_user.is_authenticated %}
+      <a class="logout-link" href="{{ url_for('logout') }}" style="margin-right:-73px;margin-bottom:15px">Log Out</a>
+      <div class="username" style="margin-top:36px;margin-right:-60px;padding-right:100">Hello {{current_user.username}}</div>
+      {% endif %}
+  </div>
+</nav>
+<div>Hello {{current_user.username}}</div>
+
+  <div class="container" style="height:450px;margin-left:-111px;margin-top:67px">
+     
+      <div class="title">Predictive analysis  </div>
+    
+      <form action="{{url_for('predict')}}" method="POST">
+        <div class="user__details">
+          <div class="input__box">
+            <span class="details">Year</span>
+            <input id="first" name="Year" type="number" placeholder="E.g: 2016" required>
+          </div>
+          <div class="input__box">
+            <span class="details">Showroom Price(in lakhs)</span>
+            <input  name="Present_Price" placeholder="9" required>
+          </div>
+          <div class="input__box">
+            <span class="details">Kilometers Driven </span>
+            <input name=Kms_Driven placeholder="1000" required>
+          </div>
+          <div class="input__box">
+            <span class="details">No. of owners before</span>
+            <input name="Owner" placeholder="1" required>
+          </div>
+          <div style="display: flex; justify-content: center;padding-top:25px">
+              <div class="input__box">
+                <label for="fueltype">Fuel Type:</label>
+                <select id="fueltype" name="Fuel_Type_Petrol">
+                  <option value="Petrol">Petrol</option>
+                  <option value="Diesel">Diesel</option>
+                </select>
+              </div>
+              <div class="input__box">
+                <label for="dealer">Dealer:</label>
+                <select id="dealer" name="Seller_Type_Individual">
+                  <option value="Dealer">Dealer</option>
+                  <option value="Individual">Individual</option>
+                </select>
+              </div>
+              <div class="input__box">
+                  <label for="transmissiontype">Transmission Type:</label>
+                  <select id="transmissiontype" name="Transmission_Manual" style="margin-right:57px;margin-bottom:68px;margin-top:-15px;margin-left:145px">
+                    <option value="Manual">Manual</option>
+                    <option value="Automatic">Automatic</option>
+                  </select>
+                </div>
+              
+            </div>
+                       
+            </div>
+            
+          <button id="submit" type="submit">Submit</button>
+      </form>
+    </div>
+    <!-- <div id="result-container"> -->
+      <!-- {{ result_content | safe }} -->
+      <!-- {{result_content}} -->
+    <!-- </div> -->
+    <div>
+
+      <div class="card shadow" style="width: 90%; border-radius:2pc;margin:auto;margin-top: 30px;height:100px">
+        <div class="card-body">
+          <p class="card-text mt-3" style="font-weight:bold;text-align: center;font-size: 20px;">Predicted price in lakhs is  {{result_content}}</p>
+        </div>
+      </div>
+      <div class="card shadow" style="width: 40%; border-radius:2pc;margin:auto;margin-top: 150px; margin-left:80px;height:400px">
+        <div class="card-body">
+          <!-- <p class="card-text mt-3" style="font-weight:bold;text-align: center;font-size: 10px;font-size: 20px">Scatter Plot</p> -->
+          <!-- <img src="{{ url_for('static', filename='plot1.png') }}?v={{ timestamp }}" style="height:275px;width:450px;margin-left: 50px;margin-top: -9px;"> -->
+        </div>
+      </div>
+      
+    </div>
+<style>
+.navbar-nav> .navbar-brand{
+  color: white
+  color: #fff;
+  font-size: 20px;
+font-weight: bold;
+ padding: 15px;
+ margin: 0;
+  line-height: 1;
+}
+
+.sidenav{
+  height: 90vh;
+}
+
+.header{
+  height: 10vh;
+  background-color: black !important;
+}
+
+.text{
+  margin-right: 650px;
+  font-weight: 1000;
+}
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+  color: black !important;
+  background-color: white !important
+}
+
+.dropdown-toggle::after {
+  position: absolute;
+  right: 12px;
+  top: 16px;
+}
+
+#sidebar{
+  position: fixed;
+  width: 200px;
+  height: 100%;
+}
+
+#sidebar .toggle-btn{
+  position: absolute;
+  left: 230px;
+  top: 20px;
+}
+
+.navbutton{
+  font-size: 22px !important;
+  color: white;
+}
+
+button {
+  color: white !important;
+  background-color: #17a2b8 !important;
+  margin-left: 257px;
+  height:30px;
+  width:100px
+}
+
+
+
+.background {
+  position: fixed;
+  background: #ccc;
+  width: 100%;
+  height: 100%;
+  opacity: 0.9;
+  -ms-opacity: 0.9;
+  -webkit-opacity: 0.8;
+  -moz-opacity: 0.8;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+}
+
+
+
+
+
+
+
+
+@import url('https://fonts.googleapis.com/css?family=Varela+Round');
+html, body {
+  overflow-x: hidden;
+  height: 100%;
+}
+body {
+  background: #fff;
+  padding: 0;
+  margin: 0;
+  font-family: 'Varela Round', sans-serif;
+}
+.header {
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 100%;
+  box-shadow: none;
+  background-color: #FC466B;
+  position: fixed;
+  height: 60px!important;
+  overflow: hidden;
+  z-index: 10;
+}
+.main {
+  margin: 0 auto;
+  display: block;
+  height: 100%;
+  margin-top: 60px;
+}
+.mainInner{
+  display: table;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+}
+.mainInner div{
+  display:table-cell;
+  vertical-align: middle;
+  font-size: 3em;
+  font-weight: bold;
+  letter-spacing: 1.25px;
+}
+#sidebarMenu {
+  height: 100%;
+  position: fixed;
+  left: 0;
+  width: 250px;
+  margin-top: 60px;
+  transform: translateX(-250px);
+  transition: transform 250ms ease-in-out;
+  background: linear-gradient(180deg, #0097ba 0%, #a5d867  100%);
+}
+.sidebarMenuInner{
+  margin:0;
+  padding:0;
+  border-top: 1px solid rgba(255, 255, 255, 0.10);
+}
+.sidebarMenuInner li{
+  list-style: none;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 20px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+}
+.sidebarMenuInner li span{
+  display: block;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.50);
+}
+.sidebarMenuInner li a{
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+}
+input[type="checkbox"]:checked ~ #sidebarMenu {
+  transform: translateX(0);
+}
+
+input[type=checkbox] {
+  transition: all 0.3s;
+  box-sizing: border-box;
+  display: none;
+}
+.sidebarIconToggle {
+  transition: all 0.3s;
+  box-sizing: border-box;
+  cursor: pointer;
+  position: absolute;
+  z-index: 99;
+  height: 100%;
+  width: 100%;
+  top: 22px;
+  left: 15px;
+  height: 22px;
+  width: 22px;
+}
+.spinner {
+  transition: all 0.3s;
+  box-sizing: border-box;
+  position: absolute;
+  height: 3px;
+  width: 100%;
+  background-color: #fff;
+}
+.horizontal {
+  transition: all 0.3s;
+  box-sizing: border-box;
+  position: relative;
+  float: left;
+  margin-top: 3px;
+}
+.diagonal.part-1 {
+  position: relative;
+  transition: all 0.3s;
+  box-sizing: border-box;
+  float: left;
+}
+.diagonal.part-2 {
+  transition: all 0.3s;
+  box-sizing: border-box;
+  position: relative;
+  float: left;
+  margin-top: 3px;
+}
+input[type=checkbox]:checked ~ .sidebarIconToggle > .horizontal {
+  transition: all 0.3s;
+  box-sizing: border-box;
+  opacity: 0;
+}
+input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-1 {
+  transition: all 0.3s;
+  box-sizing: border-box;
+  transform: rotate(135deg);
+  margin-top: 8px;
+}
+input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
+  transition: all 0.3s;
+  box-sizing: border-box;
+  transform: rotate(-135deg);
+  margin-top: -9px;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+:root {
+  --main-blue: #71b7e6;
+  --main-purple: #9b59b6;
+  --main-grey: #ccc;
+  --sub-grey: #d9d9d9;
+}
+
+body {
+  display: flex;
+  height: 100vh;
+  justify-content: center; /*center vertically */
+  align-items: center; /* center horizontally */
+  background: linear-gradient(135deg, var(--main-blue), var(--main-purple));
+  padding: 10px;
+}
+/* container and form */
+.container {
+  max-width: 700px;
+  width: 100%;
+  background: #fff;
+  padding: 25px 30px;
+  border-radius: 5px;
+}
+.container .title {
+  font-size: 25px;
+  font-weight: 500;
+  position: relative;
+}
+
+.container .title::before {
+  content: "";
+  position: absolute;
+  height: 3.5px;
+  width: 30px;
+  background: linear-gradient(135deg, var(--main-blue), var(--main-purple));
+  left: 0;
+  bottom: 0;
+}
+
+.container form .user__details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 20px 0 12px 0;
+}
+/* inside the form user details */
+form .user__details .input__box {
+  width: calc(100% / 2 - 20px);
+  margin-bottom: 15px;
+}
+
+.user__details .input__box .details {
+  font-weight: 500;
+  margin-bottom: 5px;
+  display: block;
+}
+.user__details .input__box input {
+  height: 45px;
+  width: 100%;
+  outline: none;
+  border-radius: 5px;
+  border: 1px solid var(--main-grey);
+  padding-left: 15px;
+  font-size: 16px;
+  border-bottom-width: 2px;
+  transition: all 0.3s ease;
+}
+
+.user__details .input__box input:focus,
+.user__details .input__box input:valid {
+  border-color: var(--main-purple);
+}
+
+/* inside the form gender details */
+
+form .gender__details .gender__title {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+form .gender__details .category {
+  display: flex;
+  width: 80%;
+  margin: 15px 0;
+  justify-content: space-between;
+}
+
+.gender__details .category label {
+  display: flex;
+  align-items: center;
+}
+
+.gender__details .category .dot {
+  height: 18px;
+  width: 18px;
+  background: var(--sub-grey);
+  border-radius: 50%;
+  margin: 10px;
+  border: 5px solid transparent;
+  transition: all 0.3s ease;
+}
+
+#dot-1:checked ~ .category .one,
+#dot-2:checked ~ .category .two,
+#dot-3:checked ~ .category .three {
+  border-color: var(--sub-grey);
+  background: var(--main-purple);
+}
+
+form input[type="radio"] {
+  display: none;
+}
+
+/* submit button */
+form .button {
+  height: 45px;
+  margin: 45px 0;
+}
+
+form .button input {
+  height: 100%;
+  width: 100%;
+  outline: none;
+  color: #fff;
+  border: none;
+  font-size: 18px;
+  font-weight: 500;
+  border-radius: 5px;
+  background: linear-gradient(135deg, var(--main-blue), var(--main-purple));
+  transition: all 0.3s ease;
+}
+
+form .button input:hover {
+  background: linear-gradient(-135deg, var(--main-blue), var(--main-purple));
+}
+
+@media only screen and (max-width: 584px) {
+  .container {
+    max-width: 100%;
+  }
+
+  form .user__details .input__box {
+    margin-bottom: 15px;
+    width: 100%;
+  }
+
+  form .gender__details .category {
+    width: 100%;
+  }
+
+  .container form .user__details {
+    max-height: 300px;
+    overflow-y: scroll;
+  }
+
+  .user__details::-webkit-scrollbar {
+    width: 0;
+  }
+}
+.navbar-brand {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-links .logout-link {
+  margin-left: 10px;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.navbar-links .username {
+  margin-left: 10px;
+  color: white;
+  font-weight: bold;
+}
+
+.navbar-center {
+  flex-grow: 1;
+  text-align: center;
+}
+</style>

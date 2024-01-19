@@ -1,0 +1,62 @@
+{% if show_table %}
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Username</th>
+            <th>Predicted Price</th>
+            <th>Year</th>
+            <th>Present_price(in lakh)</th>
+            <th>Km Driven</th>
+            <th>Prediction Timestamp</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in predictions %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.user.email }}</td>
+            <td>{{ user.user.username }}</td>
+            <td>{{ user.predicted_price }}</td>
+            <td>{{ user.year }}</td>
+            <td>{{ user.present_price }}</td>
+            <td>{{ user.kms_driven }}</td>
+            <td>{{ user.prediction_timestamp }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+<style>
+        .data-table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+    
+        .data-table thead {
+            background-color: #6c5ce7;
+            color: #fff;
+        }
+    
+        .data-table th,
+        .data-table td {
+            padding: 10px;
+            text-align: left;
+        }
+    
+        .data-table th {
+            font-weight: bold;
+        }
+
+        .data-table tbody tr:hover {
+            background-color: #a29bfe;
+            color: #fff;
+        }
+    
+        .data-table td {
+            border-bottom: 1px solid #ccc;
+        }
+    </style>
